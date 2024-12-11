@@ -18,42 +18,41 @@ import time
 st.set_page_config("Sukses Jaya - Create Photos")
 
 
-st.write("testing")
-# Upload file Excel pengguna
+# st.write("testing")
+# # Upload file Excel pengguna
+
+# file_upload = st.file_uploader("Upload File", type=["xlsx", "xls", "csv"])
+# catalogue = st.file_uploader("Upload Catalogue", type=["xlsx", "xls", "csv"])
+
+# if file_upload and catalogue:
+#     try:
+#         # Membaca file berdasarkan ekstensi
+#         if file_upload.name.endswith(('.xls', '.xlsx')):
+#             file_user = pd.read_excel(file_upload)
+#         elif file_upload.name.endswith('.csv'):
+#             file_user = pd.read_csv(file_upload)
+
+#         if catalogue.name.endswith(('.xls', '.xlsx')):
+#             file_catalogue = pd.read_excel(catalogue)
+#         elif catalogue.name.endswith('.csv'):
+#             file_catalogue = pd.read_csv(catalogue)
+#     except Exception as e:
+#         st.error(f"Error reading files: {e}")
+#         st.stop()
+# else:
+#     st.warning("Please Upload all files.")
+#     st.stop()
+
+
+# # Dropdown untuk memilih harga
+# selectprice = st.selectbox(
+#     "Select", options=['Harga Under', 'HargaLusin', 'HargaSpecial']
+# )
+
+
+
+
 start = st.button("Update Photo")
-
-file_upload = st.file_uploader("Upload File", type=["xlsx", "xls", "csv"])
-catalogue = st.file_uploader("Upload Catalogue", type=["xlsx", "xls", "csv"])
-
-if file_upload and catalogue:
-    try:
-        # Membaca file berdasarkan ekstensi
-        if file_upload.name.endswith(('.xls', '.xlsx')):
-            file_user = pd.read_excel(file_upload)
-        elif file_upload.name.endswith('.csv'):
-            file_user = pd.read_csv(file_upload)
-
-        if catalogue.name.endswith(('.xls', '.xlsx')):
-            file_catalogue = pd.read_excel(catalogue)
-        elif catalogue.name.endswith('.csv'):
-            file_catalogue = pd.read_csv(catalogue)
-    except Exception as e:
-        st.error(f"Error reading files: {e}")
-        st.stop()
-else:
-    st.warning("Please Upload all files.")
-    st.stop()
-
-
-# Dropdown untuk memilih harga
-selectprice = st.selectbox(
-    "Select", options=['Harga Under', 'HargaLusin', 'HargaSpecial']
-)
-
-
-
-
-
 
 start2 = st.button("Start 2")
 
