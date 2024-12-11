@@ -303,7 +303,7 @@ if start2:
             category_dict[category].append((file_name, buf.getvalue()))
 
         if image_paths:
-            st.image(image_paths[0][1], use_column_width=True)
+            st.image(image_paths[0][1], use_container_width=True)
     with st.spinner("Create Zip File..."):
         # Membuat ZIP file dengan struktur folder berdasarkan kategori
         zip_buffer = BytesIO()
