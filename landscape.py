@@ -159,7 +159,7 @@ if start2:
         database = database.sort_values(by='Upload Date', ascending=False)
         database['ItemCode'] = database['ItemCode'].str.upper()
         database = database.loc[database.groupby('ItemCode')['Upload Date'].idxmax()]
-
+        st.dataframe(database)
         selected_df = pd.merge(file_user, database[['ItemCode', 'Link']], on='ItemCode', how='left')
         df_kosong = selected_df[selected_df['Link'].isna()]
         selected_df = selected_df[~selected_df['Link'].isna()]
