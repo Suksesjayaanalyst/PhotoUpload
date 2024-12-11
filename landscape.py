@@ -20,6 +20,7 @@ st.set_page_config("Sukses Jaya - Create Photos")
 
 st.write("testing")
 # Upload file Excel pengguna
+start = st.button("Update Photo")
 
 file_upload = st.file_uploader("Upload File", type=["xlsx", "xls", "csv"])
 catalogue = st.file_uploader("Upload Catalogue", type=["xlsx", "xls", "csv"])
@@ -52,7 +53,7 @@ selectprice = st.selectbox(
 
 
 
-start = st.button("Update Photo")
+
 
 start2 = st.button("Start 2")
 
