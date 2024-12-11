@@ -135,6 +135,26 @@ if start:
     worksheet.update([df_foto.columns.values.tolist()] + df_foto.values.tolist())
 
 if start2:
+    with st.spinner("Getting photo from google drive..."):
+        # Path ke file getlink.json Anda
+        SERVICE_ACCOUNT_FILE = 'api.json'
+
+        # Scopes yang diperlukan untuk Google Drive API
+        SCOPES = ['https://www.googleapis.com/auth/drive']
+
+        # Autentikasi menggunakan service account
+        credentials = service_account.Credentials.from_service_account_file(
+                SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+
+        # Membangun layanan Google Drive API
+        service = build('drive', 'v3', credentials=credentials)
+        client = gspread.authorize(credentials)
+        sheet = client.open_by_key("18t23AKiAQmK4A4dmkwqYTOGj4gNuFMEAsBpY50zJLNY")
+        worksheet = sheet.sheet1
+
+        df_foto = worksheet.get_all_records()
+        df_foto = pd.DataFrame(df_foto)
+        st.success("Success get Data")
     with st.spinner("Waiting..."):
         database = pd.read_json("df_foto.json")
         database = database.sort_values(by='Upload Date', ascending=False)
