@@ -14,6 +14,7 @@ from googleapiclient.errors import HttpError
 from datetime import datetime
 from google.oauth2 import service_account
 import time
+import gspread
 
 st.set_page_config("Sukses Jaya - Create Photos")
 
@@ -69,6 +70,7 @@ if start:
 
     # Membangun layanan Google Drive API
     service = build('drive', 'v3', credentials=credentials)
+    client = gspread.authorize(credentials)
 
     # Fungsi untuk mendapatkan daftar file dalam folder tertentu di Google Drive
     def list_files_in_folder(folder_id):
@@ -129,6 +131,10 @@ if start:
 
 
     df_foto.to_json("df_foto.json")
+    # togooglesheets
+    sheet = client.open_by_key("18t23AKiAQmK4A4dmkwqYTOGj4gNuFMEAsBpY50zJLNY")
+    worksheet = sheet.sheet1
+    worksheet.update([df_foto.columns.values.tolist()] + df_foto.values.tolist())
 
 if start2:
     with st.spinner("Waiting..."):
