@@ -152,11 +152,10 @@ if start2:
         sheet = client.open_by_key("18t23AKiAQmK4A4dmkwqYTOGj4gNuFMEAsBpY50zJLNY")
         worksheet = sheet.sheet1
 
-        df_foto = worksheet.get_all_records()
-        df_foto = pd.DataFrame(df_foto)
+        database = worksheet.get_all_records()
+        database = pd.DataFrame(database)
         st.success("Success get Data")
     with st.spinner("Waiting..."):
-        database = pd.read_json("df_foto.json")
         database = database.sort_values(by='Upload Date', ascending=False)
         database['ItemCode'] = database['ItemCode'].str.upper()
         database = database.loc[database.groupby('ItemCode')['Upload Date'].idxmax()]
