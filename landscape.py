@@ -160,7 +160,7 @@ if start2:
         database['ItemCode'] = database['ItemCode'].astype(str)
         database['ItemCode'] = database['ItemCode'].str.upper()
         file_user['ItemCode'] = file_user['ItemCode'].astype(str)
-        file_user['ItemCode'] = file_user['ItemCode'].upper()
+        file_user['ItemCode'] = file_user['ItemCode'].str.upper()
         database = database.loc[database.groupby('ItemCode')['Upload Date'].idxmax()]
         st.dataframe(database)
         selected_df = pd.merge(file_user, database[['ItemCode', 'Link']], on='ItemCode', how='left')
