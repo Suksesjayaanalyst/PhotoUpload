@@ -157,7 +157,9 @@ if start2:
         st.success("Success get Data")
     with st.spinner("Waiting..."):
         database = database.sort_values(by='Upload Date', ascending=False)
+        database['ItemCode'] = database['ItemCode'].astype(str)
         database['ItemCode'] = database['ItemCode'].str.upper()
+        file_user['ItemCode'] = file_user['ItemCode'].astype(str)
         database = database.loc[database.groupby('ItemCode')['Upload Date'].idxmax()]
         st.dataframe(database)
         selected_df = pd.merge(file_user, database[['ItemCode', 'Link']], on='ItemCode', how='left')
