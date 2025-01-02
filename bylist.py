@@ -73,9 +73,6 @@ file_catalogue = st.session_state.catalogue
 
 
 if start:
-    if file_user.empty:
-        st.error("Upload File dulu")
-        st.stop()
     # Path ke file getlink.json Anda
     SERVICE_ACCOUNT_FILE = 'api.json'
 
@@ -143,7 +140,7 @@ if start:
     df_foto['Item No.'] = df_foto['Item No.'].str.replace('.jfif','', regex=False)
     df_foto.rename(columns={'Item No.' : 'Verse1'}, inplace=True)
 
-    df_foto['MatchStatus'] = df_foto['Verse1'].apply(lambda x: 'Match' if x in file_user['ItemCode'].values else 'Tidak Match')
+    df_foto['MatchStatus'] = df_foto['Verse1'].apply(lambda x: 'Match' if x in file_catalogue['ItemCode'].values else 'Tidak Match')
     df_foto['ItemCode'] = df_foto['Verse1'].apply(lambda x: x.split(' (')[0])
     df_foto = df_foto.sort_values(by='Upload Date', ascending=False)
 
