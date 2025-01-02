@@ -226,6 +226,15 @@ if photo:
             # Gambar semua teks di atas latar belakang
             y_offset = y_start + background_margin
             for line in all_lines:
+                if line in lines_item_code:
+                    font=font_harga
+                elif line in lines_harga_jual:
+                    font=font_harga
+                elif line in lines_ctn:
+                    font=current_font
+                elif line in lines_item_name:
+                    font=current_font
+                
                 text_width, text_height = draw.textbbox((0, 0), line, font=font)[2:4]
                 text_x = x_position + (background_width - text_width) // 2
                 draw.text((text_x, y_offset), line, font=font, fill="black")
