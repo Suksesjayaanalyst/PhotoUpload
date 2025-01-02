@@ -128,8 +128,6 @@ if start:
     # Membuat DataFrame dari data file
     df_foto = pd.DataFrame(file_data)
 
-    st.dataframe(df_foto)
-
 
     df_foto['Item No.'] = df_foto['Name'].str.replace('.jpg','', regex=False)
     df_foto['Item No.'] = df_foto['Item No.'].str.replace('.jpeg','', regex=False)
@@ -148,6 +146,9 @@ if start:
     sheet = client.open_by_key("18t23AKiAQmK4A4dmkwqYTOGj4gNuFMEAsBpY50zJLNY")
     worksheet = sheet.sheet1
     worksheet.update([df_foto.columns.values.tolist()] + df_foto.values.tolist())
+
+    st.success("Success Update Data")
+    st.dataframe(df_foto)
 
 
 
