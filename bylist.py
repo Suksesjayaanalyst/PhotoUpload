@@ -48,7 +48,6 @@ def get_data_from_google():
         catalogue = worksheet.get_all_records()
         catalogue = pd.DataFrame(catalogue)
         catalogue = catalogue.rename(columns={'Item No.': 'ItemCode'})
-        st.success("Success get Data")
         return database, catalogue
     
 if 'database' not in st.session_state:
