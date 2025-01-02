@@ -64,7 +64,9 @@ st.write("Update Photo memerlukan waktu ± 10 menit (tergantung internet)")
 # Memastikan data selalu terupdate ketika tombol ditekan
 if update:
 
-
+    if file_user.empty:
+        st.write("Tidak ada data yang diupload")
+        st.stop()
     # Path ke file getlink.json Anda
     SERVICE_ACCOUNT_FILE = 'api.json'
 
