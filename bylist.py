@@ -48,6 +48,7 @@ def get_data_from_google():
         catalogue = worksheet.get_all_records()
         catalogue = pd.DataFrame(catalogue)
         catalogue = catalogue.rename(columns={'Item No.': 'ItemCode'})
+        catalogue['ItemCode'] = catalogue['ItemCode'].astype(str)
         return database, catalogue
     
 if 'database' not in st.session_state:
@@ -176,6 +177,8 @@ if file_upload:
             file_user = pd.read_excel(file_upload)
         elif file_upload.name.endswith('.csv'):
             file_user = pd.read_csv(file_upload)
+
+        file_user['ItemCode'] = file_user['ItemCode'].astype(str)
         start2 = st.button("Start Now")
     except Exception as e:
         st.error(f"Error reading files: {e}")
