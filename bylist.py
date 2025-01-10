@@ -137,6 +137,8 @@ if start:
 
     st.success("Success Update Data")
     st.dataframe(df_foto)
+    st.session_state.database = get_data_from_google()[0]
+    st.session_state.catalogue = get_data_from_google()[1]
 
 
 
