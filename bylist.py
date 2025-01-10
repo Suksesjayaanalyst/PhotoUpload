@@ -58,19 +58,7 @@ if 'database' not in st.session_state:
 database = st.session_state.database
 file_catalogue = st.session_state.catalogue
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+st.dataframe(database[database['ItemCode'] == 'BDO-1055M'])
 
 if start:
     # Path ke file getlink.json Anda
