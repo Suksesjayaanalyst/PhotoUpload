@@ -51,9 +51,9 @@ def get_data_from_google():
         catalogue['ItemCode'] = catalogue['ItemCode'].astype(str)
         return database, catalogue
     
-if 'database' not in st.session_state:
-    st.session_state.database = get_data_from_google()[0]
-    st.session_state.catalogue = get_data_from_google()[1]
+
+st.session_state.database = get_data_from_google()[0]
+st.session_state.catalogue = get_data_from_google()[1]
 
 database = st.session_state.database
 file_catalogue = st.session_state.catalogue
