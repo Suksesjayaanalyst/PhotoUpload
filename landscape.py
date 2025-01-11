@@ -17,10 +17,15 @@ bylist = st.Page(
      icon="📃",
      default=True,
 )
+salessuport = st.Page(
+     page="salessupport.py",
+     title="Sales Support",
+     icon="📈",
+)
 
 
 pg = st.navigation({
-    "Choose": [bylist, byfile],
+    "Choose": [bylist, byfile, salessuport],
 
 })
 
