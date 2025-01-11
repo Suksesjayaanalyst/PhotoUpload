@@ -58,8 +58,6 @@ st.session_state.catalogue = get_data_from_google()[1]
 database = st.session_state.database
 file_catalogue = st.session_state.catalogue
 
-st.dataframe(database[database['ItemCode'] == 'BDO-1055M'])
-
 if start:
     # Path ke file getlink.json Anda
     SERVICE_ACCOUNT_FILE = 'api.json'
@@ -147,10 +145,6 @@ if start:
 
 
 
-
-
-
-
 st.title("Hai Everyone! made by: V")
 st.write("Ini versi pake list, bikin List excel dengan:")
 st.write("judul Column1 = 'ItemCode' (isinya list ItemCode yang ingin dibuat fotonya)")
@@ -159,6 +153,7 @@ st.warning("Update Photo memerlukan ± 10 menit (tergantung internet)")
 # Upload file Excel pengguna
 
 file_upload = st.file_uploader("Upload File", type=["xlsx", "xls", "csv"])
+
 
 if file_upload:
     try:
