@@ -59,9 +59,12 @@ database = st.session_state.database
 file_catalogue = st.session_state.catalogue
 
 
-file_catalogue = st.file_uploader("Upload File Catalogue Update", type=["xlsx", "xls", "csv"])
+file_catalogue = st.file_uploader("Upload File Catalogue Update", type=["xlsx"])
 
 if file_catalogue:
+    file_catalogue = pd.read_excel(file_catalogue)
+    file_catalogue.rename(columns={'Item No.': 'ItemCode'})
+    file_catalogue['ItemCode'] = file_catalogue['ItemCode'].astype(str)
     st.dataframe(file_catalogue)
 
 st.dataframe(database[database['ItemCode'] == 'BDO-1055M'])
