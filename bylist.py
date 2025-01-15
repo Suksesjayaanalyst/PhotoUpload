@@ -125,7 +125,10 @@ if start:
     df_foto.rename(columns={'Item No.' : 'Verse1'}, inplace=True)
 
     df_foto['MatchStatus'] = df_foto['Verse1'].apply(lambda x: 'Match' if x in file_catalogue['ItemCode'].values else 'Tidak Match')
-    df_foto['ItemCode'] = df_foto['Verse1'].apply(lambda x: x.split(' ')[0])
+    df_foto['ItemCode'] = df_foto.apply(
+    lambda row: row['Verse1'] if row['MatchStatus'] == 'Match' else row['Verse1'].split(' ')[0],
+    axis=1
+)
     df_foto = df_foto.sort_values(by='Upload Date', ascending=False)
 
     # togooglesheets
