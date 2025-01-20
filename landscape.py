@@ -10,6 +10,11 @@ byfile = st.Page(
 
 )
 
+discount = st.Page(
+     page="discount.py",
+     title="Discount",
+     icon="💸",
+)
 
 bylist = st.Page(
      page="bylist.py",
@@ -25,7 +30,7 @@ salessuport = st.Page(
 
 
 pg = st.navigation({
-    "Choose": [bylist, byfile, salessuport],
+    "Choose": [bylist, byfile, salessuport, discount],
 
 })
 
