@@ -189,7 +189,7 @@ if photo:
 
         def add_text(template, draw, row, font, selectprice):
             item_code = row['ItemCode']
-            item_name = row['Item Description']
+            item_name = row['ItemName']
             harga_jual = f"Rp. {row[selectprice]:,} / {row['Uom']}"
             ctn = f"Isi Karton: {int(row['IsiCtn'])} {row['Uom']}" if pd.notna(row['IsiCtn']) else "N/A"
 
