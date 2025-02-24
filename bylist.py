@@ -108,10 +108,14 @@ if start:
     FOLDER_ID = '1ugcMd2qFiQds85XyGqoHlEBpldLiohRH'
 
     # Mendapatkan data file dari folder
-    file_data = list_files_in_folder(FOLDER_ID)
+    fancy_data = list_files_in_folder("1_OA3QRfZU0tbBPyYrjnifmOcRdczdWtP")
 
+    file_data = list_files_in_folder(FOLDER_ID)
+    df_fancy = pd.DataFrame(fancy_data)
     # Membuat DataFrame dari data file
     df_foto = pd.DataFrame(file_data)
+
+    df_foto = pd.append(df_fancy, df_foto, ignore_index=True)
 
 
     df_foto['Item No.'] = df_foto['Name'].str.replace('.jpg','', regex=False)
