@@ -115,7 +115,9 @@ if start:
     # Membuat DataFrame dari data file
     df_foto = pd.DataFrame(file_data)
 
-    df_foto = pd.append(df_fancy, df_foto, ignore_index=True)
+    # concat
+    df_foto = pd.concat([df_fancy, df_foto], ignore_index=True)
+    # df_foto = pd.append(df_fancy, df_foto, ignore_index=True)
 
 
     df_foto['Item No.'] = df_foto['Name'].str.replace('.jpg','', regex=False)
