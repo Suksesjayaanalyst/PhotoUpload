@@ -193,7 +193,7 @@ if start2:
         selected_df = pd.merge(file_user, database[['ItemCode', 'Link']], on='ItemCode', how='left')
         df_kosong = selected_df[selected_df['Link'].isna()]
         selected_df = selected_df[~selected_df['Link'].isna()]
-        selected_df = pd.merge(selected_df, file_catalogue[['ItemCode', 'Item Description','Uom','IsiCtn', 'Kategori', 'Harga Under', 'HargaLusin', 'HargaKoli', 'HargaSpecial']], on='ItemCode', how='left')
+        selected_df = pd.merge(selected_df, file_catalogue[['ItemCode', 'ItemName','Uom','IsiCtn', 'U_Kategori', 'Harga Under', 'HargaLusin', 'HargaKoli', 'HargaSpecial']], on='ItemCode', how='left')
         st.write("Yang dibuat:")
         st.dataframe(selected_df)
         st.write("Yang Tidak ada di Google Drive:")
@@ -222,7 +222,7 @@ if start2:
                 img = img.resize ((750,750))
                 image_x = (template.width - img.width) // 2
                 image_y = 25
-                if row['Kategori'] == 'AKSESORIS RAMBUT KAMINO':
+                if row['U_Kategori'] == 'AKSESORIS RAMBUT KAMINO':
                     image_y = 100
                     logo = "./logo-kamino-for-web-new.png"
                     logo = Image.open(logo).convert("RGBA") 
@@ -230,7 +230,7 @@ if start2:
                     logo_x = (template.width - logo.width) // 2
                     template.paste(logo,(logo_x, 0), logo)
 
-                if row['Kategori'] == 'LOLI & MOLI':
+                if row['U_Kategori'] == 'LOLI & MOLI':
                     image_y = 100
                     logo = "./Lolimoli Logo-02.png"
                     logo = Image.open(logo).convert("RGBA") 
@@ -246,7 +246,7 @@ if start2:
         
         def add_text(template, draw, row, font):
             item_code = row['ItemCode']
-            item_name = row['Item Description']
+            item_name = row['ItemName']
             hargalama = row['HargaLama']
             hargabaru = row['HargaBaru']
             harga_jual_lama = f"Rp. {hargalama:,} / {row['Uom']}"
@@ -271,7 +271,7 @@ if start2:
             corner_radius = 15  # Radius untuk rounded rectangle
             x_position = 32.5  # Posisi X tetap
             y_start = 825  # Posisi Y awal
-            if row['Kategori'] in (['AKSESORIS RAMBUT KAMINO', 'LOLI & MOLI']):
+            if row['U_Kategori'] in (['AKSESORIS RAMBUT KAMINO', 'LOLI & MOLI']):
                 y_start = 900
 
             # Hitung tinggi total teks dan latar belakang
