@@ -263,7 +263,6 @@ if start2:
             # Gabungkan semua teks untuk menghitung tinggi total
             all_lines = lines_item_code + lines_item_name + lines_harga_jual_lama + lines_harga_jual_baru + lines_ctn
 
-            
 
             # Konfigurasi latar belakang
             background_width = 735
