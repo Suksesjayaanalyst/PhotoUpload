@@ -56,7 +56,7 @@ st.session_state.catalogue = get_data_from_google()[1]
 
 database = st.session_state.database
 file_catalogue = st.session_state.catalogue
-
+file_catalogue['U_Kategori'] = file_catalogue['U_Kategori'].astype(str)
 
 if start:
     # Path ke file getlink.json Anda
