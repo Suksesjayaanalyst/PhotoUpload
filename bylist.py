@@ -121,7 +121,6 @@ if start:
     # df_foto = pd.append(df_fancy, df_foto, ignore_index=True)
 
 
-    df_foto['U_Kategori'] = df_foto['U_Kategori'].astype(str)
     df_foto['Item No.'] = df_foto['Name'].str.replace('.jpg','', regex=False)
     df_foto['Item No.'] = df_foto['Item No.'].str.replace('.jpeg','', regex=False)
     df_foto['Item No.'] = df_foto['Item No.'].str.replace('.mp4','', regex=False)
