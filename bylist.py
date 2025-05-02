@@ -204,7 +204,6 @@ if start2:
         df_kosong = selected_df[selected_df['Link'].isna()]
         selected_df = selected_df[~selected_df['Link'].isna()]
         selected_df = pd.merge(selected_df, file_catalogue[['ItemCode', 'ItemName','Uom','IsiCtn', 'U_Kategori', 'Harga Under', 'HargaLusin', 'HargaKoli', 'HargaSpecial']], on='ItemCode', how='left')
-        selected_df['U_Kategori'] = selected_df['U_Kategori'].astype(str)
         st.write("Yang dibuat:")
         st.dataframe(selected_df)
         st.write("Yang Tidak ada di Google Drive:")
