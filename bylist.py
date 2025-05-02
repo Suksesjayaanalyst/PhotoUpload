@@ -121,6 +121,7 @@ if start:
     # df_foto = pd.append(df_fancy, df_foto, ignore_index=True)
 
 
+    df_foto['U_Kategori'] = df_foto['U_Kategori'].astype(str)
     df_foto['Item No.'] = df_foto['Name'].str.replace('.jpg','', regex=False)
     df_foto['Item No.'] = df_foto['Item No.'].str.replace('.jpeg','', regex=False)
     df_foto['Item No.'] = df_foto['Item No.'].str.replace('.mp4','', regex=False)
@@ -204,6 +205,7 @@ if start2:
         df_kosong = selected_df[selected_df['Link'].isna()]
         selected_df = selected_df[~selected_df['Link'].isna()]
         selected_df = pd.merge(selected_df, file_catalogue[['ItemCode', 'ItemName','Uom','IsiCtn', 'U_Kategori', 'Harga Under', 'HargaLusin', 'HargaKoli', 'HargaSpecial']], on='ItemCode', how='left')
+        selected_df['U_Kategori'] = selected_df['U_Kategori'].astype(str)
         st.write("Yang dibuat:")
         st.dataframe(selected_df)
         st.write("Yang Tidak ada di Google Drive:")
