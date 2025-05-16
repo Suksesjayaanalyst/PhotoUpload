@@ -190,11 +190,7 @@ if photo:
         def add_text(template, draw, row, font, selectprice):
             item_code = row['ItemCode']
             item_name = row['ItemName']
-            try:
-                price = float(row[selectprice])
-                harga_jual = f"Rp. {price:,.0f} / {row['Uom']}"
-            except ValueError:
-                harga_jual = f"Rp. {row[selectprice]} / {row['Uom']}"
+            harga_jual = f"Rp. {row[selectprice]:,} / {row['Uom']}"
             ctn = f"Isi Karton: {int(row['IsiCtn'])} {row['Uom']}" if pd.notna(row['IsiCtn']) else "N/A"
 
             # Wrap each line of text
