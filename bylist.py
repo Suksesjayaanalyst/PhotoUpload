@@ -123,6 +123,7 @@ if start:
 
     df_foto['Item No.'] = df_foto['Name'].str.replace('.jpg','', regex=False)
     df_foto['Item No.'] = df_foto['Item No.'].str.replace('.jpeg','', regex=False)
+    df_foto['Item No.'] = df_foto['Item No.'].str.replace('.JPEG','', regex=False)
     df_foto['Item No.'] = df_foto['Item No.'].str.replace('.mp4','', regex=False)
     df_foto['Item No.'] = df_foto['Item No.'].str.replace('.Ink','', regex=False)
     df_foto['Item No.'] = df_foto['Item No.'].str.replace('.png','', regex=False)
