@@ -1,7 +1,7 @@
 pandas
 requests
 Pillow
-streamlit>=1.50.0
+streamlit==1.61.1
 oauth2client
 google-auth
 google-auth-oauthlib
