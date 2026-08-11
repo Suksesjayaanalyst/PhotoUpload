@@ -1,0 +1,30 @@
+================================================
+deploy_cpanel/start_streamlit.sh
+================================================
+Yang perlu disesuaikan hanya:
+APP_FILE="versibaru.py"
+PORT="8501"
+
+
+================================================
+deploy_cpanel/watchdog_streamlit.sh
+================================================
+jalankan di terminal cpanel
+chmod +x deploy_cpanel/watchdog_streamlit.sh
+
+
+================================================
+.htaccess
+================================================
+Namun ada dua bagian yang memang harus disesuaikan per aplikasi:
+    PassengerAppRoot "/home/tigapila/photoupload.tigapilarfamilia.com"
+dan:
+    PassengerPython "/home/tigapila/virtualenv/photoupload.tigapilarfamilia.com/3.11/bin/python"
+Sedangkan port:
+    127.0.0.1:8501
+juga harus unik kalau aplikasi kedua berjalan bersamaan, misalnya:
+    PhotoUpload       → 8501
+    Aplikasi kedua    → 8502
+    Aplikasi ketiga   → 8503
+Jadi konsep modularnya bukan satu .htaccess yang identik 100%, tetapi kita membuat template .htaccess standar,
+lalu setiap repo mempunyai konfigurasi sesuai domain, virtualenv, dan port masing-masing.
