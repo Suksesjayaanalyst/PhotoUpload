@@ -12,7 +12,7 @@ LOG="$APP_DIR/streamlit_watchdog.log"
 # CEK APAKAH STREAMLIT APLIKASI INI MASIH BERJALAN
 # =========================================================
 
-if pgrep -u "$(whoami)" -f "streamlit run versibaru.py --server.address=127.0.0.1 --server.port=8501" > /dev/null
+if pgrep -u "$(whoami)" -f "streamlit run landscape.py --server.address=127.0.0.1 --server.port=8501" > /dev/null
 then
     exit 0
 fi
