@@ -268,7 +268,7 @@ if start2:
                 harga_jual = f"Rp. {price:,.0f} / {row['Uom']}"
             except ValueError:
                 harga_jual = f"Rp. {row[selectprice]} / {row['Uom']}"
-            ctn = f"Isi Karton: {int(row['IsiCtn'])} {row['Uom']}" if pd.notna(row['IsiCtn']) else "N/A"
+            ctn = f"Isi Carton: {int(row['IsiCtn'])} {row['Uom']}" if pd.notna(row['IsiCtn']) else "N/A"
 
             # Wrap each line of text
             lines_item_code = wrap_text(f"{item_code}", font, max_width=450)
