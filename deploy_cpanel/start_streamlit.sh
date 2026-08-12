@@ -5,7 +5,7 @@
 # =========================================================
 
 # Nama file aplikasi Streamlit
-APP_FILE="versibaru.py"
+APP_FILE="landscape.py"
 
 # Port aplikasi
 PORT="8501"
