@@ -4,15 +4,24 @@
 # STREAMLIT WATCHDOG
 # =========================================================
 
-APP_DIR="$(cd "$(dirname "$0")" && pwd)"
-START_SCRIPT="$APP_DIR/start_streamlit.sh"
-LOG="$APP_DIR/streamlit_watchdog.log"
+DEPLOY_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+START_SCRIPT="$DEPLOY_DIR/start_streamlit.sh"
+
+LOG="$DEPLOY_DIR/streamlit_watchdog.log"
 
 # =========================================================
-# CEK APAKAH STREAMLIT APLIKASI INI MASIH BERJALAN
+# LOAD CONFIGURATION
 # =========================================================
 
-if pgrep -u "$(whoami)" -f "streamlit run landscape.py --server.address=127.0.0.1 --server.port=8501" > /dev/null
+APP_FILE=$(grep '^APP_FILE=' "$START_SCRIPT" | cut -d'"' -f2)
+PORT=$(grep '^PORT=' "$START_SCRIPT" | cut -d'"' -f2)
+
+# =========================================================
+# CEK STREAMLIT
+# =========================================================
+
+if pgrep -u "$(whoami)" -f "streamlit run $APP_FILE.*--server.port=$PORT" > /dev/null
 then
     exit 0
 fi
@@ -24,9 +33,9 @@ fi
 echo "$(date '+%Y-%m-%d %H:%M:%S') - Streamlit tidak berjalan. Menjalankan kembali..." >> "$LOG"
 
 # =========================================================
-# JALANKAN KEMBALI
+# START
 # =========================================================
 
-nohup "$START_SCRIPT" >> "$APP_DIR/streamlit.log" 2>&1 &
+nohup "$START_SCRIPT" >> "$DEPLOY_DIR/streamlit.log" 2>&1 &
 
 echo "$(date '+%Y-%m-%d %H:%M:%S') - $START_SCRIPT dijalankan." >> "$LOG"
