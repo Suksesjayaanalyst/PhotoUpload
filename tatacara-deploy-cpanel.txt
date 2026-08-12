@@ -28,3 +28,28 @@ juga harus unik kalau aplikasi kedua berjalan bersamaan, misalnya:
     Aplikasi ketiga   → 8503
 Jadi konsep modularnya bukan satu .htaccess yang identik 100%, tetapi kita membuat template .htaccess standar,
 lalu setiap repo mempunyai konfigurasi sesuai domain, virtualenv, dan port masing-masing.
+
+
+
+
+
+
+Di server jalankan:
+
+chmod +x deploy_cpanel/start_streamlit.sh
+chmod +x deploy_cpanel/watchdog_streamlit.sh
+
+Lalu cek:
+
+ls -l deploy_cpanel/
+
+Idealnya terlihat seperti:
+
+-rwxr-xr-x ... start_streamlit.sh
+-rwxr-xr-x ... watchdog_streamlit.sh
+
+Perhatikan ada x pada permission-nya.
+
+Kemudian coba lagi:
+
+./deploy_cpanel/start_streamlit.sh

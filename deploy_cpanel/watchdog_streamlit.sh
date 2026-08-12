@@ -9,10 +9,10 @@ START_SCRIPT="$APP_DIR/start_streamlit.sh"
 LOG="$APP_DIR/streamlit_watchdog.log"
 
 # =========================================================
-# CEK APAKAH STREAMLIT MASIH BERJALAN
+# CEK APAKAH STREAMLIT APLIKASI INI MASIH BERJALAN
 # =========================================================
 
-if pgrep -u "$(whoami)" -f "streamlit run" > /dev/null
+if pgrep -u "$(whoami)" -f "streamlit run versibaru.py --server.address=127.0.0.1 --server.port=8501" > /dev/null
 then
     exit 0
 fi
