@@ -1,0 +1,33 @@
+RewriteEngine On
+
+# =========================================================
+# STREAMLIT WEBSOCKET
+# =========================================================
+RewriteCond %{HTTP:Upgrade} websocket [NC]
+RewriteCond %{HTTP:Connection} upgrade [NC]
+RewriteRule ^_stcore/stream$ ws://127.0.0.1:8501/_stcore/stream [P,L]
+
+# =========================================================
+# STREAMLIT HTTP
+# =========================================================
+RewriteRule ^(.*)$ http://127.0.0.1:8501/$1 [P,L]
+
+# =========================================================
+# CLOUDLINUX PASSENGER
+# =========================================================
+PassengerAppRoot "/home/tigapila/photoupload.tigapilarfamilia.com"
+PassengerBaseURI "/"
+PassengerPython "/home/tigapila/virtualenv/photoupload.tigapilarfamilia.com/3.11/bin/python"
+
+# =========================================================
+# PHP CONFIG
+# =========================================================
+<IfModule php8_module>
+   php_value error_log "/home/tigapila/logs/php.error.log"
+   php_flag log_errors On
+</IfModule>
+
+<IfModule lsapi_module>
+   php_value error_log "/home/tigapila/logs/php.error.log"
+   php_flag log_errors On
+</IfModule>
