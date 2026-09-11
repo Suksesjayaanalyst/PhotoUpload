@@ -53,7 +53,7 @@ Reqabdul = st.Page(
 )
 
 pg = st.navigation({
-    "Choose": [bylist, byfile, salessuport, discount, TasKarung, FotoKT, Reqabdul, byfile2],
+    "Choose": [bylist, byfile, discount, TasKarung, FotoKT, Reqabdul, byfile2],
 })
 
 
