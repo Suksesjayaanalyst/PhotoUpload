@@ -46,8 +46,14 @@ FotoKT = st.Page(
      icon="📁",
 )
 
+Reqabdul = st.Page(
+     page="bylist4.py",
+     title="Versi 1.2",
+     icon="📁",
+)
+
 pg = st.navigation({
-    "Choose": [bylist, byfile, salessuport, discount, TasKarung, FotoKT, byfile2],
+    "Choose": [bylist, byfile, salessuport, discount, TasKarung, FotoKT, Reqabdul, byfile2],
 })
 
 
