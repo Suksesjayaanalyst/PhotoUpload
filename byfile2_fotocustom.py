@@ -98,11 +98,11 @@ if photo:
         # if selectprice == 'Harga Under':
         #     colour = (255, 163, 208)  # Pink
         # elif selectprice == 'HargaLusin':
-        #     colour = (250, 225, 135)  # Hijau
+        #     colour = (250, 225, 135)  # Orange
         # elif selectprice == 'HargaSpecial':
-        #     colour = (154,210,172)  # Biru
+        #     colour = (154, 210, 172)  # Biru
 
-        colour = (255, 163, 208)  # Pink
+        colour = (250, 225, 135)  # Pink
 
         def wrap_text(text, font, max_width):
             wrapped_text = textwrap.fill(text, width=max_width // (font.getbbox('a')[2] - font.getbbox('a')[0]))
