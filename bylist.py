@@ -5,6 +5,7 @@ from io import BytesIO
 import streamlit as st
 import textwrap
 import zipfile
+import gc
 from oauth2client.service_account import ServiceAccountCredentials
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
@@ -49,7 +50,7 @@ def get_data_from_google():
         catalogue = pd.DataFrame(catalogue)
         catalogue['ItemCode'] = catalogue['ItemCode'].astype(str)
         return database, catalogue
-    
+
 
 if 'database' not in st.session_state or 'catalogue' not in st.session_state:
     db, cat = get_data_from_google()
@@ -83,9 +84,9 @@ if start:
 
         while True:
             response = service.files().list(
-                q=query, 
-                spaces='drive', 
-                fields="nextPageToken, files(id, name, mimeType, createdTime)", 
+                q=query,
+                spaces='drive',
+                fields="nextPageToken, files(id, name, mimeType, createdTime)",
                 pageToken=page_token
             ).execute()
             items = response.get('files', [])
@@ -120,24 +121,22 @@ if start:
 
     # concat
     df_foto = pd.concat([df_fancy, df_foto], ignore_index=True)
-    # df_foto = pd.append(df_fancy, df_foto, ignore_index=True)
 
-
-    df_foto['Item No.'] = df_foto['Name'].str.replace('.jpg','', regex=False)
-    df_foto['Item No.'] = df_foto['Item No.'].str.replace('.jpeg','', regex=False)
-    df_foto['Item No.'] = df_foto['Item No.'].str.replace('.JPEG','', regex=False)
-    df_foto['Item No.'] = df_foto['Item No.'].str.replace('.mp4','', regex=False)
-    df_foto['Item No.'] = df_foto['Item No.'].str.replace('.Ink','', regex=False)
-    df_foto['Item No.'] = df_foto['Item No.'].str.replace('.png','', regex=False)
-    df_foto['Item No.'] = df_foto['Item No.'].str.replace('.ini','', regex=False)
-    df_foto['Item No.'] = df_foto['Item No.'].str.replace('.jfif','', regex=False)
-    df_foto.rename(columns={'Item No.' : 'Verse1'}, inplace=True)
+    df_foto['Item No.'] = df_foto['Name'].str.replace('.jpg', '', regex=False)
+    df_foto['Item No.'] = df_foto['Item No.'].str.replace('.jpeg', '', regex=False)
+    df_foto['Item No.'] = df_foto['Item No.'].str.replace('.JPEG', '', regex=False)
+    df_foto['Item No.'] = df_foto['Item No.'].str.replace('.mp4', '', regex=False)
+    df_foto['Item No.'] = df_foto['Item No.'].str.replace('.Ink', '', regex=False)
+    df_foto['Item No.'] = df_foto['Item No.'].str.replace('.png', '', regex=False)
+    df_foto['Item No.'] = df_foto['Item No.'].str.replace('.ini', '', regex=False)
+    df_foto['Item No.'] = df_foto['Item No.'].str.replace('.jfif', '', regex=False)
+    df_foto.rename(columns={'Item No.': 'Verse1'}, inplace=True)
 
     df_foto['MatchStatus'] = df_foto['Verse1'].apply(lambda x: 'Match' if x in file_catalogue['ItemCode'].values else 'Tidak Match')
     df_foto['ItemCode'] = df_foto.apply(
-    lambda row: row['Verse1'] if row['MatchStatus'] == 'Match' else row['Verse1'].split(' ')[0],
-    axis=1
-)
+        lambda row: row['Verse1'] if row['MatchStatus'] == 'Match' else row['Verse1'].split(' ')[0],
+        axis=1
+    )
     df_foto = df_foto.sort_values(by='Upload Date', ascending=False)
 
     # togooglesheets
@@ -149,12 +148,6 @@ if start:
     st.dataframe(df_foto)
     st.session_state.database = get_data_from_google()[0]
     st.session_state.catalogue = get_data_from_google()[1]
-
-
-
-
-
-
 
 
 st.title("Hai Everyone! made by: V")
@@ -191,9 +184,6 @@ selectprice = st.selectbox(
 )
 
 
-
-
-
 if start2:
     with st.spinner("Waiting..."):
         database = database.sort_values(by='Upload Date', ascending=False)
@@ -206,57 +196,63 @@ if start2:
         selected_df = pd.merge(file_user, database[['ItemCode', 'Link']], on='ItemCode', how='left')
         df_kosong = selected_df[selected_df['Link'].isna()]
         selected_df = selected_df[~selected_df['Link'].isna()]
-        selected_df = pd.merge(selected_df, file_catalogue[['ItemCode', 'ItemName','Uom','IsiCtn', 'U_Kategori', 'Harga Under', 'HargaLusin', 'HargaKoli', 'HargaSpecial']], on='ItemCode', how='left')
+        selected_df = pd.merge(selected_df, file_catalogue[['ItemCode', 'ItemName', 'Uom', 'IsiCtn', 'U_Kategori', 'Harga Under', 'HargaLusin', 'HargaKoli', 'HargaSpecial']], on='ItemCode', how='left')
         st.write("Yang dibuat:")
         st.dataframe(selected_df)
         st.write("Yang Tidak ada di Google Drive:")
         st.dataframe(df_kosong)
 
         font_path = "./Poppins-Regular.ttf"
-        font_harga = ImageFont.truetype("./Poppins-SemiBold.ttf", size =20)
+        font_harga = ImageFont.truetype("./Poppins-SemiBold.ttf", size=20)
         current_font = ImageFont.truetype(font_path, size=20)
         font = ImageFont.truetype(font_path, size=20)
         if selectprice == 'Harga Under':
-                colour = (255,163,208)  # Pink
+            colour = (255, 163, 208)  # Pink
         elif selectprice == 'HargaLusin':
             colour = (250, 225, 135)  # Oranye
         elif selectprice == 'HargaSpecial':
-            colour = (154,210,172)  # Hijau
+            colour = (154, 210, 172)  # Hijau
+
     with st.spinner("Making Image..."):
         def wrap_text(text, font, max_width):
             # Pembungkusan teks menggunakan textwrap
-            wrapped_text = textwrap.fill(text, width=max_width // (font.getbbox('a')[2] - font.getbbox('a')[0]))  # Perhitungan dengan ukuran karakter 'a'
-
+            wrapped_text = textwrap.fill(text, width=max_width // (font.getbbox('a')[2] - font.getbbox('a')[0]))
             return wrapped_text.splitlines()
 
         # FIX 2: Added session context down to connection layer
         def add_image(img_url, row, session_obj):
+            template = Image.new("RGBA", (800, 1200), "white")
+            img = None
+            logo = None
             try:
-                template = Image.new("RGBA", (800, 1200), "white")  
                 response = session_obj.get(img_url, timeout=15)
                 img = Image.open(BytesIO(response.content)).convert("RGBA")
-                img = img.resize((750,750))
+                img = img.resize((750, 750))
                 image_x = (template.width - img.width) // 2
                 image_y = 25
                 if row['U_Kategori'] == 'AKSESORIS RAMBUT KAMINO':
                     image_y = 100
-                    logo = "./logo-kamino-for-web-new.png"
-                    logo = Image.open(logo).convert("RGBA") 
+                    logo = Image.open("./logo-kamino-for-web-new.png").convert("RGBA")
                     logo = logo.resize((200, 100))
                     logo_x = (template.width - logo.width) // 2
-                    template.paste(logo,(logo_x, 0), logo)
+                    template.paste(logo, (logo_x, 0), logo)
 
                 if row['U_Kategori'] == 'LOLI & MOLI':
                     image_y = 100
-                    logo = "./Lolimoli Logo-02.png"
-                    logo = Image.open(logo).convert("RGBA") 
+                    logo = Image.open("./Lolimoli Logo-02.png").convert("RGBA")
                     logo = logo.resize((150, 75))
                     logo_x = (template.width - logo.width) // 2
-                    template.paste(logo,(logo_x, 15), logo)
+                    template.paste(logo, (logo_x, 15), logo)
                 template.paste(img, (image_x, image_y))
 
             except Exception as e:
                 st.error(f"Error loading image: {e} {row['ItemCode']}")
+            finally:
+                # --- FIX: tutup gambar sumber & logo supaya tidak numpuk di memori ---
+                if img is not None:
+                    img.close()
+                if logo is not None:
+                    logo.close()
 
             return template
 
@@ -279,8 +275,6 @@ if start2:
             # Gabungkan semua teks untuk menghitung tinggi total
             all_lines = lines_item_code + lines_item_name + lines_harga_jual + lines_ctn
 
-            
-
             # Konfigurasi latar belakang
             background_width = 735
             background_margin = 10  # Margin sekitar teks
@@ -292,7 +286,7 @@ if start2:
 
             # Hitung tinggi total teks dan latar belakang
             total_text_height = sum(draw.textbbox((0, 0), line, font=font)[3] for line in all_lines)
-            total_height = total_text_height + (len(all_lines) + 1) * 2 * background_margin  # Tambahkan margin antar baris
+            total_height = total_text_height + (len(all_lines) + 1) * 2 * background_margin
 
             # Gambar latar belakang
             rect_coords = [
@@ -301,8 +295,8 @@ if start2:
             ]
             draw.rounded_rectangle(
                 rect_coords,
-                fill=colour,  # Warna latar belakang
-                radius=corner_radius,  # Radius sudut
+                fill=colour,
+                radius=corner_radius,
             )
 
             # Gambar semua teks di atas latar belakang
@@ -316,7 +310,7 @@ if start2:
                     font = font_harga
                 elif line in lines_ctn:
                     font = current_font
-                    
+
                 text_width, text_height = draw.textbbox((0, 0), line, font=font)[2:4]
 
                 # Pusatkan teks secara horizontal dalam latar belakang
@@ -326,8 +320,7 @@ if start2:
                 # Perbarui posisi Y untuk baris berikutnya
                 y_offset += text_height + 2 * background_margin
 
-
-# 1. Initialize an empty ZIP archive in memory first
+    # 1. Initialize an empty ZIP archive in memory first
     zip_buffer = BytesIO()
     preview_shown = False
 
@@ -340,7 +333,7 @@ if start2:
         # FIX 4: Implemented reusable requests connection engine
         with requests.Session() as session:
             with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zipf:
-                
+
                 for idx, (index, row) in enumerate(selected_df.iterrows()):
                     # Dynamic user updates
                     status_text.text(f"Processing item {idx + 1} of {total_items}: {row['ItemCode']}")
@@ -349,19 +342,32 @@ if start2:
                     img_template = add_image(row['Link'], row, session)
                     draw = ImageDraw.Draw(img_template)
                     add_text(img_template, draw, row, font, selectprice)
-                    
+
                     buf = BytesIO()
                     rgb_template = img_template.convert("RGB")
-                    rgb_template.save(buf, format='JPEG', quality=85) 
+                    rgb_template.save(buf, format='JPEG', quality=85)
 
                     img_bytes = buf.getvalue()
                     if not preview_shown:
                         st.image(img_bytes, caption="First image preview")
                         preview_shown = True
-                    
+
                     category = row['List'] if pd.notna(row['List']) else "Uncategorized"
                     file_path = f"{category}/{row['ItemCode']}.jpg"
                     zipf.writestr(file_path, img_bytes)
+
+                    # --- FIX 5: bersihkan objek gambar tiap iterasi supaya tidak numpuk di memori ---
+                    img_template.close()
+                    rgb_template.close()
+                    buf.close()
+                    del img_template, rgb_template, buf, img_bytes, draw
+
+                    # Paksa garbage collector jalan tiap 50 item, biar RAM ke-release
+                    if (idx + 1) % 50 == 0:
+                        gc.collect()
+
+        # Bersihkan sisa memori setelah loop selesai
+        gc.collect()
 
         # Clean old progress modules off the UI
         progress_bar.empty()
