@@ -20,7 +20,7 @@ service = build('drive', 'v3', credentials=credentials)
 client = gspread.authorize(credentials)
 
 # --- Streamlit Buttons ---
-# start = st.button("Update Photos")
+start = st.button("Update Photos")
 
 @st.cache_data
 def get_data_from_google():
@@ -45,56 +45,56 @@ file_catalogue = st.session_state.catalogue
 file_catalogue['U_Kategori'] = file_catalogue['U_Kategori'].astype(str)
 
 # --- Google Drive Image Fetching ---
-# if start:
-#     def list_files_in_folder_recursive(folder_id):
-#         file_data = []
-#         page_token = None
-#         while True:
-#             response = service.files().list(
-#                 q=f"'{folder_id}' in parents",
-#                 spaces='drive',
-#                 fields="nextPageToken, files(id, name, mimeType, createdTime)",
-#                 pageToken=page_token
-#             ).execute()
-#             for item in response.get('files', []):
-#                 if item['mimeType'].startswith('image/'):
-#                     file_data.append({
-#                         'Name': item['name'],
-#                         'Link': f"https://drive.google.com/uc?export=download&id={item['id']}",
-#                         'Upload Date': item['createdTime']
-#                     })
-#                 elif item['mimeType'] == 'application/vnd.google-apps.folder':
-#                     file_data.extend(list_files_in_folder_recursive(item['id']))
-#             page_token = response.get('nextPageToken')
-#             if not page_token:
-#                 break
-#         return file_data
+if start:
+    def list_files_in_folder_recursive(folder_id):
+        file_data = []
+        page_token = None
+        while True:
+            response = service.files().list(
+                q=f"'{folder_id}' in parents",
+                spaces='drive',
+                fields="nextPageToken, files(id, name, mimeType, createdTime)",
+                pageToken=page_token
+            ).execute()
+            for item in response.get('files', []):
+                if item['mimeType'].startswith('image/'):
+                    file_data.append({
+                        'Name': item['name'],
+                        'Link': f"https://drive.google.com/uc?export=download&id={item['id']}",
+                        'Upload Date': item['createdTime']
+                    })
+                elif item['mimeType'] == 'application/vnd.google-apps.folder':
+                    file_data.extend(list_files_in_folder_recursive(item['id']))
+            page_token = response.get('nextPageToken')
+            if not page_token:
+                break
+        return file_data
 
-#     FOLDER_ID = '1UmZBAd1pC7pUi_0B7je-fFtZHY6uRYsJ'
-#     file_data = list_files_in_folder_recursive(FOLDER_ID)
-#     df_foto = pd.DataFrame(file_data)
+    FOLDER_ID = '1UmZBAd1pC7pUi_0B7je-fFtZHY6uRYsJ'
+    file_data = list_files_in_folder_recursive(FOLDER_ID)
+    df_foto = pd.DataFrame(file_data)
 
-#     # Remove all listed extensions from filenames
-#     ext_pattern = r"(\.jpg|\.jpeg|\.JPEG|\.mp4|\.Ink|\.png|\.ini|\.jfif)$"
-#     df_foto['ItemCode'] = df_foto['Name'].str.replace(ext_pattern, '', regex=True)
-#     df_foto.rename(columns={'ItemCode': 'Verse1'}, inplace=True)
-#     df_foto['MatchStatus'] = df_foto['Verse1'].apply(lambda x: 'Match' if x in file_catalogue['ItemCode'].values else 'Tidak Match')
-#     df_foto['ItemCode'] = df_foto.apply(lambda row: row['Verse1'] if row['MatchStatus'] == 'Match' else row['Verse1'].split(' ')[0], axis=1)
-#     df_foto = df_foto.sort_values(by='Upload Date', ascending=False)
+    # Remove all listed extensions from filenames
+    ext_pattern = r"(\.jpg|\.jpeg|\.JPEG|\.mp4|\.Ink|\.png|\.ini|\.jfif)$"
+    df_foto['ItemCode'] = df_foto['Name'].str.replace(ext_pattern, '', regex=True)
+    df_foto.rename(columns={'ItemCode': 'Verse1'}, inplace=True)
+    df_foto['MatchStatus'] = df_foto['Verse1'].apply(lambda x: 'Match' if x in file_catalogue['ItemCode'].values else 'Tidak Match')
+    df_foto['ItemCode'] = df_foto.apply(lambda row: row['Verse1'] if row['MatchStatus'] == 'Match' else row['Verse1'].split(' ')[0], axis=1)
+    df_foto = df_foto.sort_values(by='Upload Date', ascending=False)
 
-#     # Update Google Sheet
-#     sheet = client.open_by_key("18t23AKiAQmK4A4dmkwqYTOGj4gNuFMEAsBpY50zJLNY")
-#     worksheet = sheet.worksheet('FotoKT')
-#     worksheet.update([df_foto.columns.values.tolist()] + df_foto.values.tolist())
+    # Update Google Sheet
+    sheet = client.open_by_key("18t23AKiAQmK4A4dmkwqYTOGj4gNuFMEAsBpY50zJLNY")
+    worksheet = sheet.worksheet('FotoKT')
+    worksheet.update([df_foto.columns.values.tolist()] + df_foto.values.tolist())
 
-#     st.success("Success Update Data")
-#     st.dataframe(df_foto)
-#     st.session_state.database = get_data_from_google()[0]
-#     st.session_state.catalogue = get_data_from_google()[1]
+    st.success("Success Update Data")
+    st.dataframe(df_foto)
+    st.session_state.database = get_data_from_google()[0]
+    st.session_state.catalogue = get_data_from_google()[1]
 
-#     # --- FIX: bersihkan dataframe sementara supaya tidak numpuk di memori ---
-#     del df_foto, file_data
-#     gc.collect()
+    # --- FIX: bersihkan dataframe sementara supaya tidak numpuk di memori ---
+    del df_foto, file_data
+    gc.collect()
 
 # --- Streamlit UI ---
 st.title("Hai Everyone! made by: V")

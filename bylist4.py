@@ -20,7 +20,7 @@ import gspread
 st.set_page_config("Sukses Jaya - Create Photos")
 
 
-start = st.button("Update Photos")
+# start = st.button("Update Photos")
 
 
 @st.cache_data
@@ -61,97 +61,97 @@ database = st.session_state.database
 file_catalogue = st.session_state.catalogue
 file_catalogue['U_Kategori'] = file_catalogue['U_Kategori'].astype(str)
 
-if start:
-    # Path ke file getlink.json Anda
-    SERVICE_ACCOUNT_FILE = 'api.json'
+# if start:
+#     # Path ke file getlink.json Anda
+#     SERVICE_ACCOUNT_FILE = 'api.json'
 
-    # Scopes yang diperlukan untuk Google Drive API
-    SCOPES = ['https://www.googleapis.com/auth/drive']
+#     # Scopes yang diperlukan untuk Google Drive API
+#     SCOPES = ['https://www.googleapis.com/auth/drive']
 
-    # Autentikasi menggunakan service account
-    credentials = service_account.Credentials.from_service_account_file(
-            SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+#     # Autentikasi menggunakan service account
+#     credentials = service_account.Credentials.from_service_account_file(
+#             SERVICE_ACCOUNT_FILE, scopes=SCOPES)
 
-    # Membangun layanan Google Drive API
-    service = build('drive', 'v3', credentials=credentials)
-    client = gspread.authorize(credentials)
+#     # Membangun layanan Google Drive API
+#     service = build('drive', 'v3', credentials=credentials)
+#     client = gspread.authorize(credentials)
 
-    # Fungsi untuk mendapatkan daftar file dalam folder tertentu di Google Drive
-    def list_files_in_folder(folder_id):
-        query = f"'{folder_id}' in parents"
-        page_token = None
-        file_data = []
+#     # Fungsi untuk mendapatkan daftar file dalam folder tertentu di Google Drive
+#     def list_files_in_folder(folder_id):
+#         query = f"'{folder_id}' in parents"
+#         page_token = None
+#         file_data = []
 
-        while True:
-            response = service.files().list(
-                q=query,
-                spaces='drive',
-                fields="nextPageToken, files(id, name, mimeType, createdTime)",
-                pageToken=page_token
-            ).execute()
-            items = response.get('files', [])
+#         while True:
+#             response = service.files().list(
+#                 q=query,
+#                 spaces='drive',
+#                 fields="nextPageToken, files(id, name, mimeType, createdTime)",
+#                 pageToken=page_token
+#             ).execute()
+#             items = response.get('files', [])
 
-            if not items:
-                print('No files found.')
-            else:
-                for item in items:
-                    if item['mimeType'].startswith('image/'):  # Pastikan hanya file gambar yang diambil
-                        file_data.append({
-                            'Name': item['name'],
-                            'Link': f"https://drive.google.com/uc?export=download&id={item['id']}",
-                            'Upload Date': item['createdTime']
-                        })
+#             if not items:
+#                 print('No files found.')
+#             else:
+#                 for item in items:
+#                     if item['mimeType'].startswith('image/'):  # Pastikan hanya file gambar yang diambil
+#                         file_data.append({
+#                             'Name': item['name'],
+#                             'Link': f"https://drive.google.com/uc?export=download&id={item['id']}",
+#                             'Upload Date': item['createdTime']
+#                         })
 
-            page_token = response.get('nextPageToken', None)
-            if page_token is None:
-                break
+#             page_token = response.get('nextPageToken', None)
+#             if page_token is None:
+#                 break
 
-        return file_data
+#         return file_data
 
-    # ID folder yang ingin diakses
-    FOLDER_ID = '1ugcMd2qFiQds85XyGqoHlEBpldLiohRH'
+#     # ID folder yang ingin diakses
+#     FOLDER_ID = '1ugcMd2qFiQds85XyGqoHlEBpldLiohRH'
 
-    # Mendapatkan data file dari folder
-    fancy_data = list_files_in_folder("1_OA3QRfZU0tbBPyYrjnifmOcRdczdWtP")
+#     # Mendapatkan data file dari folder
+#     fancy_data = list_files_in_folder("1_OA3QRfZU0tbBPyYrjnifmOcRdczdWtP")
 
-    file_data = list_files_in_folder(FOLDER_ID)
-    df_fancy = pd.DataFrame(fancy_data)
-    # Membuat DataFrame dari data file
-    df_foto = pd.DataFrame(file_data)
+#     file_data = list_files_in_folder(FOLDER_ID)
+#     df_fancy = pd.DataFrame(fancy_data)
+#     # Membuat DataFrame dari data file
+#     df_foto = pd.DataFrame(file_data)
 
-    # concat
-    df_foto = pd.concat([df_fancy, df_foto], ignore_index=True)
+#     # concat
+#     df_foto = pd.concat([df_fancy, df_foto], ignore_index=True)
 
-    df_foto['Item No.'] = df_foto['Name'].str.replace('.jpg', '', regex=False)
-    df_foto['Item No.'] = df_foto['Item No.'].str.replace('.jpeg', '', regex=False)
-    df_foto['Item No.'] = df_foto['Item No.'].str.replace('.JPEG', '', regex=False)
-    df_foto['Item No.'] = df_foto['Item No.'].str.replace('.mp4', '', regex=False)
-    df_foto['Item No.'] = df_foto['Item No.'].str.replace('.Ink', '', regex=False)
-    df_foto['Item No.'] = df_foto['Item No.'].str.replace('.png', '', regex=False)
-    df_foto['Item No.'] = df_foto['Item No.'].str.replace('.ini', '', regex=False)
-    df_foto['Item No.'] = df_foto['Item No.'].str.replace('.jfif', '', regex=False)
-    df_foto.rename(columns={'Item No.': 'Verse1'}, inplace=True)
+#     df_foto['Item No.'] = df_foto['Name'].str.replace('.jpg', '', regex=False)
+#     df_foto['Item No.'] = df_foto['Item No.'].str.replace('.jpeg', '', regex=False)
+#     df_foto['Item No.'] = df_foto['Item No.'].str.replace('.JPEG', '', regex=False)
+#     df_foto['Item No.'] = df_foto['Item No.'].str.replace('.mp4', '', regex=False)
+#     df_foto['Item No.'] = df_foto['Item No.'].str.replace('.Ink', '', regex=False)
+#     df_foto['Item No.'] = df_foto['Item No.'].str.replace('.png', '', regex=False)
+#     df_foto['Item No.'] = df_foto['Item No.'].str.replace('.ini', '', regex=False)
+#     df_foto['Item No.'] = df_foto['Item No.'].str.replace('.jfif', '', regex=False)
+#     df_foto.rename(columns={'Item No.': 'Verse1'}, inplace=True)
 
-    df_foto['MatchStatus'] = df_foto['Verse1'].apply(lambda x: 'Match' if x in file_catalogue['ItemCode'].values else 'Tidak Match')
-    df_foto['ItemCode'] = df_foto.apply(
-        lambda row: row['Verse1'] if row['MatchStatus'] == 'Match' else row['Verse1'].split(' ')[0],
-        axis=1
-    )
-    df_foto = df_foto.sort_values(by='Upload Date', ascending=False)
+#     df_foto['MatchStatus'] = df_foto['Verse1'].apply(lambda x: 'Match' if x in file_catalogue['ItemCode'].values else 'Tidak Match')
+#     df_foto['ItemCode'] = df_foto.apply(
+#         lambda row: row['Verse1'] if row['MatchStatus'] == 'Match' else row['Verse1'].split(' ')[0],
+#         axis=1
+#     )
+#     df_foto = df_foto.sort_values(by='Upload Date', ascending=False)
 
-    # togooglesheets
-    sheet = client.open_by_key("18t23AKiAQmK4A4dmkwqYTOGj4gNuFMEAsBpY50zJLNY")
-    worksheet = sheet.sheet1
-    worksheet.update([df_foto.columns.values.tolist()] + df_foto.values.tolist())
+#     # togooglesheets
+#     sheet = client.open_by_key("18t23AKiAQmK4A4dmkwqYTOGj4gNuFMEAsBpY50zJLNY")
+#     worksheet = sheet.sheet1
+#     worksheet.update([df_foto.columns.values.tolist()] + df_foto.values.tolist())
 
-    st.success("Success Update Data")
-    st.dataframe(df_foto)
-    st.session_state.database = get_data_from_google()[0]
-    st.session_state.catalogue = get_data_from_google()[1]
+#     st.success("Success Update Data")
+#     st.dataframe(df_foto)
+#     st.session_state.database = get_data_from_google()[0]
+#     st.session_state.catalogue = get_data_from_google()[1]
 
-    # --- FIX: bersihkan dataframe sementara supaya tidak numpuk di memori ---
-    del df_foto, df_fancy, file_data, fancy_data
-    gc.collect()
+#     # --- FIX: bersihkan dataframe sementara supaya tidak numpuk di memori ---
+#     del df_foto, df_fancy, file_data, fancy_data
+#     gc.collect()
 
 
 st.title("Hai Everyone! made by: V")
