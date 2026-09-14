@@ -13,9 +13,9 @@ from googleapiclient.discovery import build
 st.set_page_config("Sukses Jaya - Create Photos")
 
 # --- Google Sheets / Drive Setup ---
-SERVICE_ACCOUNT_FILE = 'api.json'
+SERVICE_ACCOUNT_FILE = st.secrets["secretkey"]
 SCOPES = ['https://www.googleapis.com/auth/drive']
-credentials = service_account.Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+credentials = service_account.Credentials.from_service_account_info(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
 service = build('drive', 'v3', credentials=credentials)
 client = gspread.authorize(credentials)
 

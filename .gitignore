@@ -1,2 +1,4 @@
 # Runtime logs
 deploy_cpanel/*.log
+api.json
+.streamlit/secrets.toml

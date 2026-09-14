@@ -27,13 +27,13 @@ start = st.button("Update Photos")
 def get_data_from_google():
     with st.spinner("Getting data from Google Sheets..."):
         # Path ke file getlink.json Anda
-        SERVICE_ACCOUNT_FILE = 'api.json'
+        SERVICE_ACCOUNT_FILE = st.secrets["secretkey"]
 
         # Scopes yang diperlukan untuk Google Drive API
         SCOPES = ['https://www.googleapis.com/auth/drive']
 
         # Autentikasi menggunakan service account
-        credentials = service_account.Credentials.from_service_account_file(
+        credentials = service_account.Credentials.from_service_account_info(
                 SERVICE_ACCOUNT_FILE, scopes=SCOPES)
 
         # Membangun layanan Google Drive API
