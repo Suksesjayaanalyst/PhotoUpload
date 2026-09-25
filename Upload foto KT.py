@@ -25,7 +25,7 @@ start = st.button("Update Photos")
 @st.cache_data
 def get_data_from_google():
     with st.spinner("Getting data from Google Sheets..."):
-        sheet = client.open_by_key("18t23AKiAQmK4A4dmkwqYTOGj4gNuFMEAsBpY50zJLNY")
+        sheet = client.open_by_key("1YECf6N_v0AflBMMBjIEIW9Ckc15NJqqooz0tmnSsaJY")
 
         # Database
         worksheet = sheet.worksheet('FotoKT')
@@ -83,7 +83,7 @@ if start:
     df_foto = df_foto.sort_values(by='Upload Date', ascending=False)
 
     # Update Google Sheet
-    sheet = client.open_by_key("18t23AKiAQmK4A4dmkwqYTOGj4gNuFMEAsBpY50zJLNY")
+    sheet = client.open_by_key("1YECf6N_v0AflBMMBjIEIW9Ckc15NJqqooz0tmnSsaJY")
     worksheet = sheet.worksheet('FotoKT')
     worksheet.update([df_foto.columns.values.tolist()] + df_foto.values.tolist())
 
