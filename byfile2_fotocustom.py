@@ -34,7 +34,7 @@ def get_data_from_google():
                 SERVICE_ACCOUNT_FILE, scopes=SCOPES)
         # Membangun layanan Google Drive API
         client = gspread.authorize(credentials)
-        sheet = client.open_by_key("18t23AKiAQmK4A4dmkwqYTOGj4gNuFMEAsBpY50zJLNY")
+        sheet = client.open_by_key("1YECf6N_v0AflBMMBjIEIW9Ckc15NJqqooz0tmnSsaJY")
         worksheet = sheet.worksheet('CatalogueUpdate')
         # Mendapatkan semua record dari worksheet
         catalogue = worksheet.get_all_records()

@@ -39,7 +39,7 @@ def get_data_from_google():
         # Membangun layanan Google Drive API
         service = build('drive', 'v3', credentials=credentials)
         client = gspread.authorize(credentials)
-        sheet = client.open_by_key("18t23AKiAQmK4A4dmkwqYTOGj4gNuFMEAsBpY50zJLNY")
+        sheet = client.open_by_key("1YECf6N_v0AflBMMBjIEIW9Ckc15NJqqooz0tmnSsaJY")
         worksheet = sheet.sheet1
 
         database = worksheet.get_all_records()
@@ -133,7 +133,7 @@ if start:
     df_foto = df_foto.sort_values(by='Upload Date', ascending=False)
 
     # togooglesheets
-    sheet = client.open_by_key("18t23AKiAQmK4A4dmkwqYTOGj4gNuFMEAsBpY50zJLNY")
+    sheet = client.open_by_key("1YECf6N_v0AflBMMBjIEIW9Ckc15NJqqooz0tmnSsaJY")
     worksheet = sheet.sheet1
     worksheet.update([df_foto.columns.values.tolist()] + df_foto.values.tolist())
 

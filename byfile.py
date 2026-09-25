@@ -38,7 +38,7 @@ def get_data_from_google():
 
         # Membangun layanan Google Drive API
         client = gspread.authorize(credentials)
-        sheet = client.open_by_key("18t23AKiAQmK4A4dmkwqYTOGj4gNuFMEAsBpY50zJLNY")
+        sheet = client.open_by_key("1YECf6N_v0AflBMMBjIEIW9Ckc15NJqqooz0tmnSsaJY")
         worksheet = sheet.worksheet('CatalogueUpdate')
 
         # Mendapatkan semua record dari worksheet
@@ -139,7 +139,7 @@ st.write("Update Photo memerlukan waktu ± 10 menit (tergantung internet)")
 #     df_foto = df_foto.sort_values(by='Upload Date', ascending=False)
 
 #     # togooglesheets
-#     sheet = client.open_by_key("18t23AKiAQmK4A4dmkwqYTOGj4gNuFMEAsBpY50zJLNY")
+#     sheet = client.open_by_key("1YECf6N_v0AflBMMBjIEIW9Ckc15NJqqooz0tmnSsaJY")
 #     worksheet = sheet.sheet1
 #     worksheet.update([df_foto.columns.values.tolist()] + df_foto.values.tolist())
 

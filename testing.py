@@ -39,7 +39,7 @@ def get_data_from_google():
         service = build('drive', 'v3', credentials=credentials)
         client = gspread.authorize(credentials)
 
-        sheet = client.open_by_key("18t23AKiAQmK4A4dmkwqYTOGj4gNuFMEAsBpY50zJLNY")
+        sheet = client.open_by_key("1YECf6N_v0AflBMMBjIEIW9Ckc15NJqqooz0tmnSsaJY")
         database = pd.DataFrame(sheet.sheet1.get_all_records())
 
         catalogue = pd.DataFrame(sheet.worksheet('CatalogueUpdate').get_all_records())
